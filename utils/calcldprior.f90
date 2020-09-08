@@ -38,7 +38,7 @@ ldprior=0.0d0
 
 !Open up limb-darkening table
 !workdir="/data/Kepler/tables/"
-workdir="/data/TESS/tables/"
+workdir="./tables/"
 filename="Claret-limbquad-tess.txt"  !name of Claret tables
 
 nunit=10 
@@ -219,7 +219,7 @@ do k=1,2
 enddo
 
 !Convert to q1,q2 if necessary.  
-if (ntype.eq.1) then
+if (ntype.eq.2) then
         q1=(cmin(1)+cmin(2))**2.0
         q2=cmin(1)/(2.0*(cmin(1)+cmin(2)))
         ldprior(1)=q1
