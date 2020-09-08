@@ -1,0 +1,87 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module detrend5 ! in 
+    interface  ! in :detrend5
+        subroutine polyfilter(npt,time,flux,ferr,ts,tflag,boxbin,x,y,z,ngap,gaps,offset,nfitp,work,nc,itime) ! in :detrend5:polyfilter_ramp.f
+	    integer, optional,check(len(time)>=npt),depend(time) :: npt=len(time)
+            double precision dimension(npt), intent(inout) :: time
+            double precision dimension(npt),depend(npt), intent(inout) :: flux
+            double precision dimension(npt),depend(npt), intent(inout) :: ferr
+            integer dimension(npt),depend(npt) :: ts
+            integer dimension(npt),depend(npt) :: tflag
+            double precision :: boxbin
+            double precision dimension(npt),depend(npt), intent(inout) :: x
+            double precision dimension(npt),depend(npt), intent(inout) :: y
+            double precision dimension(npt),depend(npt), intent(inout) :: z
+            integer, intent(inout) :: ngap
+            double precision dimension(npt),depend(npt), intent(inout) :: gaps
+            double precision dimension(npt),depend(npt), intent(inout) :: offset
+            integer :: nfitp
+            double precision dimension(npt),depend(npt), intent(inout) :: work
+            double precision :: nc
+            double precision :: itime
+        end subroutine polyfilter
+        function mean(npt,pts) ! in :detrend5:polyfilter_ramp.f
+            integer, optional,check(len(pts)>=npt),depend(pts) :: npt=len(pts)
+            double precision dimension(npt) :: pts
+            double precision :: mean
+        end function mean
+        subroutine polydetrend(npt,time,mag,merr,nfit,tzero,off,work) ! in :detrend5:polyfilter_ramp.f
+            integer, optional,check(len(time)>=npt),depend(time) :: npt=len(time)
+            real*8 dimension(npt) :: time
+            real*8 dimension(npt),depend(npt) :: mag
+            real*8 dimension(npt),depend(npt) :: merr
+            integer :: nfit
+            real*8 :: tzero
+            real*8 :: off
+            real*8 dimension(npt),depend(npt) :: work
+        end subroutine polydetrend
+        subroutine lfit(x,y,sig,ndat,a,ia,ma,covar,npc,chisq) ! in :detrend5:polyfilter_ramp.f
+            real*8 dimension(ndat) :: x
+            real*8 dimension(ndat),depend(ndat) :: y
+            real*8 dimension(ndat),depend(ndat) :: sig
+            integer, optional,check(len(x)>=ndat),depend(x) :: ndat=len(x)
+            real*8 dimension(ma) :: a
+            integer dimension(ma),depend(ma) :: ia
+            integer, optional,check(len(a)>=ma),depend(a) :: ma=len(a)
+            real*8 dimension(npc,npc) :: covar
+            integer, optional,check(shape(covar,0)==npc),depend(covar) :: npc=shape(covar,0)
+            real*8 :: chisq
+        end subroutine lfit
+        subroutine funcs2(x,p,np) ! in :detrend5:polyfilter_ramp.f
+            real*8 :: x
+            real*8 dimension(np) :: p
+            integer, optional,check(len(p)>=np),depend(p) :: np=len(p)
+        end subroutine funcs2
+        subroutine rqsort(n,a,p) ! in :detrend5:rqsort.f
+            integer, optional,check(len(a)>=n),depend(a) :: n=len(a)
+            real*8 dimension(n) :: a
+            integer dimension(n),depend(n) :: p
+        end subroutine rqsort
+        subroutine gaussj(a,n,np,b,m,mp) ! in :detrend5:gaussj.f
+            real*8 dimension(np,np) :: a
+            integer :: n
+            integer, optional,check(shape(a,0)==np),depend(a) :: np=shape(a,0)
+            real*8 dimension(np,mp),depend(np) :: b
+            integer :: m
+            integer, optional,check(shape(b,1)==mp),depend(b) :: mp=shape(b,1)
+        end subroutine gaussj
+        subroutine covsrt(covar,npc,ma,ia,mfit) ! in :detrend5:gaussj.f
+            real*8 dimension(npc,npc) :: covar
+            integer, optional,check(shape(covar,0)==npc),depend(covar) :: npc=shape(covar,0)
+            integer, optional,check(len(ia)>=ma),depend(ia) :: ma=len(ia)
+            integer dimension(ma) :: ia
+            integer :: mfit
+        end subroutine covsrt
+        function stdev(npt,pts,mean) ! in :detrend5:stdev.f
+            integer, optional,check(len(pts)>=npt),depend(pts) :: npt=len(pts)
+            double precision dimension(npt) :: pts
+            double precision :: mean
+            double precision :: stdev
+        end function stdev
+    end interface 
+end python module detrend5
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/
