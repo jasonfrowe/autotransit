@@ -196,6 +196,8 @@ class starpars_class:
         self.feh_err=[]
         rhostar=[]
         rhostar_err=[]
+        rhostar_ep=[]
+        rhostar_em=[]
         q1=[]
         q2=[]
         q1_err=[]
