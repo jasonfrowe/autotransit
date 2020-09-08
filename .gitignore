@@ -3,3 +3,5 @@ Makefile
 *.mod
 *.o
 .ipynb_checkpoints
+download
+__pycache__
