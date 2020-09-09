@@ -1,10 +1,10 @@
-function calcldprior(npriors,teff,logg,feh,ntype)
+subroutine calcldprior(npriors,teff,logg,feh,ntype,priors)
 use precision
 implicit none
 !import vars
 integer :: npriors,ntype
 real(double) :: teff, logg, feh
-real(double), dimension(:), pointer :: calcldprior
+real(double), dimension(:) :: priors
 !local vars
 type :: ldpars
 	real(double), dimension(4) :: pars
@@ -17,7 +17,6 @@ real(double) :: teffs(nteff),loggs(nlogg),fehs(nfeh),cmin(2),diff,diffmin,c1(2),
  c2(2),c3(2),c4(2),c5(2),c6(2),c7(2),c8(2),ld1,ld2,yout1,yout2,q1,q2
 real(double), allocatable, dimension(:) :: pars1,cin1,x,y1,y2
 type(ldpars), dimension(nteff,nlogg,nfeh) :: ldparsin
-real(double), dimension(:), allocatable, target :: ldprior
 character :: dumc
 character(80) :: workdir,filename
 data teffs/3500.,3750.,4000.,4250.,4500.,4750.,5000.,5250.,5500., &
@@ -33,12 +32,11 @@ data loggs/0.,0.5,1,1.5,2.,2.5,3,3.5,4.,4.5,5./
 data fehs/-5.0,-4.5,-4.0,-3.5,-3.0,-2.5,-2.0,-1.5,-1.0,-0.5,-0.3, &
      -0.2,-0.1,0.0,0.1,0.2,0.3,0.5,1.0/
 
-allocate(ldprior(npriors))
-ldprior=0.0d0
+priors=0.0d0
 
 !Open up limb-darkening table
 !workdir="/data/Kepler/tables/"
-workdir="./tables/"
+workdir="/data/TESS/tables/"
 filename="Claret-limbquad-tess.txt"  !name of Claret tables
 
 nunit=10 
@@ -219,20 +217,16 @@ do k=1,2
 enddo
 
 !Convert to q1,q2 if necessary.  
-if (ntype.eq.2) then
+if (ntype.eq.1) then
         q1=(cmin(1)+cmin(2))**2.0
         q2=cmin(1)/(2.0*(cmin(1)+cmin(2)))
-        ldprior(1)=q1
-        ldprior(2)=q2
+        priors(1)=q1
+        priors(2)=q2
 else
-        ldprior(1)=cmin(1)
-        ldprior(2)=cmin(2)
+        priors(1)=cmin(1)
+        priors(2)=cmin(2)
 endif
 
 
-
-calcldprior => ldprior
-
-
 return
-end function calcldprior
+end subroutine calcldprior

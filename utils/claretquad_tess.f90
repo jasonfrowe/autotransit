@@ -7,13 +7,13 @@ real(double), allocatable, dimension(:) :: priors
 character(80) :: cline
 
 interface
-  function calcldprior(npriors,teff,logg,feh,ntype)
+  subroutine calcldprior(npriors,teff,logg,feh,ntype,priors)
     use precision
     implicit none
     integer :: npriors,ntype
     real(double) :: teff, logg, feh
-    real(double), dimension(:), pointer :: calcldprior
-  end function calcldprior
+    real(double), dimension(:) :: priors
+  end subroutine calcldprior
 end interface
 
 !parameters 
@@ -60,7 +60,7 @@ priors=0.0
 ! Priors(5) = (2)+1 sigma
 ! Priors(6) = (2)-1 sigma
 
-priors=calcldprior(npriors,teff,logg,feh,ntype)
+call calcldprior(npriors,teff,logg,feh,ntype,priors)
 
 write(6,500) (priors(i),i=1,npriors)
 500 format(6(F10.6,1X))
