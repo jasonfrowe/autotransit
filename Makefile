@@ -4,7 +4,7 @@ F77 = $(FPATH)ifort
 F90 = $(FPATH)ifort
 #F77 = gfortran
 #compiling object file flags
-OPT1 = -O3 
+OPT1 = -O2
 OPT2 = 
 #OPT1 = -O0 -g -CB -warn 
 #OPT2 = 
