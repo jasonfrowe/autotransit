@@ -4,6 +4,6 @@
 .ipynb_checkpoints
 download
 __pycache__
-results/**
+results/t*
 *.h5
-bin/**
+bin/claretquad_tess
